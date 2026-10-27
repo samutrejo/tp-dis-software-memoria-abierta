@@ -1,4 +1,4 @@
-# Nombre Equipo
+# Memoria Abierta
 
 Integrantes
 
