@@ -2,11 +2,16 @@
 
 Integrantes
 
+1. Abril Peric
+2. Camila Blesa
+3. Santino Domeniconi
+4. Samuel Trejo
+
 nombre user_git
-1
-2
-3
-4
+1. abrilperic8
+2. CamilaBlesa
+3. santino-ardua-tpm
+4. samutrejo
 
 # Forma de uso
 
