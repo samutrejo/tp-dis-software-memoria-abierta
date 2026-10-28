@@ -1,4 +1,4 @@
-# Memoria Abierta
+<img width="1208" height="693" alt="image" src="https://github.com/user-attachments/assets/c6451c40-ec0e-4b82-900c-a672a4440fb8" /># Memoria Abierta
 
 Integrantes
 
@@ -10,7 +10,7 @@ Integrantes
 nombre user_git
 1. abrilperic8
 2. CamilaBlesa
-3. santino-ardua-tpm
+3. SantiDome14
 4. samutrejo
 
 # Forma de uso
