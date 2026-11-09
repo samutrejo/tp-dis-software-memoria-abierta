@@ -40,7 +40,6 @@ src/test/java/ar/edu/unsam/ddso/tp/
 
 Perfil `local` por defecto (H2 in-memory, consola en `http://localhost:8080/h2-console`).
 
-
 ## Convención de branches y PRs
 
 Cada tarea del tablero de Trello tiene un número `DS-XX`. Las branches y los PRs lo usan para que se pueda rastrear qué PR resolvió cada tarea.
@@ -51,7 +50,7 @@ Cada tarea del tablero de Trello tiene un número `DS-XX`. Las branches y los PR
 - `DS-XX`: el número de la card de Trello.
 - `descripcion-corta`: en minúsculas, con guiones y sin tildes, de 2 a 4 palabras.
 
-Ejemplos: `feat/DS-10-entidad-pieza`, `test/DS-12-pieza-service`, `docs/DS-26-api-md`.
+Ejemplos: `feat/DS-10-entidad-pieza`, `test/DS-12-piece-service`, `docs/DS-26-api-md`.
 
 **Título del PR:** igual al nombre de la card, por ejemplo `DS-10 · Entidad Pieza + repository`.
 
