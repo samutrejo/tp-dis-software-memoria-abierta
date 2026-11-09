@@ -42,6 +42,8 @@ class PieceServiceTest {
         // Then
         assertEquals(1L, response.id());
         assertEquals("Letter", response.name());
+        assertEquals("Handwritten", response.description());
+        assertEquals(date, response.date());
         verify(pieceRepository).save(any(Piece.class));
     }
 
