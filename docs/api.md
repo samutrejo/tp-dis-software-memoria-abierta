@@ -2,14 +2,17 @@
 
 Base URL en local: `http://localhost:8080`. Todas las requests y responses son JSON.
 
-**Errores:** siempre devuelven el mismo formato:
+**Errores:**
 
-```json
-{ "error": "mensaje" }
-```
+| Status | Cuándo | Body |
+|---|---|---|
+| `400 Bad Request` | El body no pasa la validación (por ejemplo, un nombre vacío). | `{ "error": "Invalid request" }` |
+| `404 Not Found` | El recurso pedido no existe. | `{ "error": "Piece 99 not found" }` |
+| `400 Bad Request` | El request está mal formado: JSON inválido, fecha inválida (`"1978-13-01"`) o un id que no es número (`/pieces/abc`). | Formato por defecto de Spring Boot: `{ "timestamp": "...", "status": 400, "error": "Bad Request", "path": "/pieces" }` |
 
-| Status | Cuándo |
-|---|---|
+Los dos primeros los arma nuestro `GlobalExceptionHandler`. El tercero lo resuelve Spring antes de llegar al controller.
+
+---|---|
 | `400 Bad Request` | El body no pasa la validación (por ejemplo, un nombre vacío). |
 | `404 Not Found` | El recurso pedido no existe. |
 
