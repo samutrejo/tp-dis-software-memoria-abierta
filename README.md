@@ -39,3 +39,8 @@ src/test/java/ar/edu/unsam/ddso/tp/
 ```
 
 Perfil `local` por defecto (H2 in-memory, consola en `http://localhost:8080/h2-console`).
+
+## Links del equipo
+
+- Tablero de Trello (backlog): https://trello.com/b/vg9wrjD8/tp-disenodesoftware
+- Discord de la cursada: https://discord.com/channels/1558480425146646560/1558480427189145611
