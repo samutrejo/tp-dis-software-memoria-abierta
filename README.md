@@ -58,3 +58,7 @@ Ejemplos: `feat/DS-10-entidad-pieza`, `test/DS-12-piece-service`, `docs/DS-26-ap
 
 - Nada se commitea directo a `main`: todo entra por PR.
 - Cada PR lo revisa y aprueba otro integrante (columna CODE REVIEW en Trello) antes de mergearlo.
+## Links del equipo
+
+- Tablero de Trello (backlog): https://trello.com/b/vg9wrjD8/tp-disenodesoftware
+- Discord de la cursada: https://discord.com/channels/1558480425146646560/1558480427189145611
