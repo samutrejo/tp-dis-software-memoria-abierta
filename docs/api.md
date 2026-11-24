@@ -73,4 +73,67 @@ Errores: `404` si no existe, con `{ "error": "Piece 99 not found" }`.
 
 ---
 
-_Pendiente: digitalizaciones, tags (catalogación) y búsqueda (disponibilización). Se agregan con cada card._
+## Tags (Catalogación)
+
+Un **tag** es una palabra clave administrable que clasifica digitalizaciones. Se seleccionan de un conjunto cerrado que el administrador puede cambiar en tiempo de ejecución.
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `id` | número | — (lo genera el sistema) | Identificador único del tag. |
+| `name` | texto | sí | Nombre único de la etiqueta. |
+
+### Crear un tag
+
+`POST /tags`
+
+Request:
+
+```json
+{ "name": "dictadura" }
+```
+
+Response `201 Created`:
+
+```json
+{ "id": 1, "name": "dictadura" }
+```
+
+Errores:
+- `400 Bad Request` si falta `name` o está vacío: `{ "error": "Invalid request" }`.
+- `400 Bad Request` si el tag ya existe: `{ "error": "Tag 'dictadura' already exists" }`.
+
+### Listar tags
+
+`GET /tags`
+
+Response `200 OK`:
+
+```json
+[
+  { "id": 1, "name": "dictadura" }
+]
+```
+
+### Obtener un tag
+
+`GET /tags/{id}`
+
+Response `200 OK`:
+
+```json
+{ "id": 1, "name": "dictadura" }
+```
+
+Errores: `404 Not Found` si no existe, con `{ "error": "Tag 99 not found" }`.
+
+### Eliminar un tag
+
+`DELETE /tags/{id}`
+
+Response `204 No Content` (sin body).
+
+Errores: `404 Not Found` si no existe, con `{ "error": "Tag 99 not found" }`.
+
+---
+
+_Pendiente: digitalizaciones y búsqueda (disponibilización). Se agregan con cada card._
