@@ -12,10 +12,6 @@ Base URL en local: `http://localhost:8080`. Todas las requests y responses son J
 
 Los dos primeros los arma nuestro `GlobalExceptionHandler`. El tercero lo resuelve Spring antes de llegar al controller.
 
----|---|
-| `400 Bad Request` | El body no pasa la validación (por ejemplo, un nombre vacío). |
-| `404 Not Found` | El recurso pedido no existe. |
-
 ---
 
 ## Piezas (Digitalización)
