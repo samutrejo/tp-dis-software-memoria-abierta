@@ -7,8 +7,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,4 +41,19 @@ public class Digitization {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "piece_id", nullable = false)
     private Piece piece;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "digitization_tags",
+            joinColumns = @JoinColumn(name = "digitization_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
+
+    public Digitization(Long id, String url, String description, Piece piece) {
+        this.id = id;
+        this.url = url;
+        this.description = description;
+        this.piece = piece;
+        this.tags = new ArrayList<>();
+    }
 }
