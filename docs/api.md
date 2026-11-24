@@ -136,4 +136,78 @@ Errores: `404 Not Found` si no existe, con `{ "error": "Tag 99 not found" }`.
 
 ---
 
-_Pendiente: digitalizaciones y búsqueda (disponibilización). Se agregan con cada card._
+## Digitalizaciones (Digitalización)
+
+Una **digitalización** es una URL a un recurso digital con una descripción, asociada a una pieza existente.
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `id` | número | — (lo genera el sistema) | Identificador único de la digitalización. |
+| `pieceId` | número | — (viene en la URL) | Identificador de la pieza a la que pertenece. |
+| `url` | texto | sí | URL del recurso digital. |
+| `description` | texto | no | Descripción de la digitalización. |
+
+### Asociar una digitalización a una pieza
+
+`POST /pieces/{pieceId}/digitizations`
+
+Request:
+
+```json
+{ "url": "https://archivo.org/carta-1978-frente.jpg", "description": "Escaneo frente" }
+```
+
+Response `201 Created`:
+
+```json
+{
+  "id": 1,
+  "pieceId": 1,
+  "url": "https://archivo.org/carta-1978-frente.jpg",
+  "description": "Escaneo frente"
+}
+```
+
+Errores:
+- `400 Bad Request` si falta `url` o está vacío: `{ "error": "Invalid request" }`.
+- `404 Not Found` si la pieza no existe: `{ "error": "Piece 99 not found" }`.
+
+### Listar digitalizaciones de una pieza
+
+`GET /pieces/{pieceId}/digitizations`
+
+Response `200 OK`:
+
+```json
+[
+  {
+    "id": 1,
+    "pieceId": 1,
+    "url": "https://archivo.org/carta-1978-frente.jpg",
+    "description": "Escaneo frente"
+  }
+]
+```
+
+Errores: `404 Not Found` si la pieza no existe, con `{ "error": "Piece 99 not found" }`.
+
+### Obtener una digitalización
+
+`GET /digitizations/{id}`
+
+Response `200 OK`:
+
+```json
+{
+  "id": 1,
+  "pieceId": 1,
+  "url": "https://archivo.org/carta-1978-frente.jpg",
+  "description": "Escaneo frente"
+}
+```
+
+Errores: `404 Not Found` si no existe, con `{ "error": "Digitization 99 not found" }`.
+
+---
+
+_Pendiente: catalogación de digitalizaciones con tags (`DS-17`) y búsqueda (`DS-19`). Se agregan con cada card._
