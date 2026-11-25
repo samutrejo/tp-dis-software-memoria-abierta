@@ -4,9 +4,12 @@ import ar.edu.unsam.ddso.tp.dto.TagCreateRequestDTO;
 import ar.edu.unsam.ddso.tp.dto.TagResponseDTO;
 import ar.edu.unsam.ddso.tp.exception.BadRequestException;
 import ar.edu.unsam.ddso.tp.exception.NotFoundException;
+import ar.edu.unsam.ddso.tp.model.Digitization;
 import ar.edu.unsam.ddso.tp.model.Tag;
+import ar.edu.unsam.ddso.tp.repository.DigitizationRepository;
 import ar.edu.unsam.ddso.tp.repository.TagRepository;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class TagService {
 
     private final TagRepository tagRepository;
+    private final DigitizationRepository digitizationRepository;
 
-    public TagService(TagRepository tagRepository) {
+    public TagService(
+            TagRepository tagRepository, DigitizationRepository digitizationRepository) {
         this.tagRepository = tagRepository;
+        this.digitizationRepository = digitizationRepository;
     }
 
     // ---------- Consultas ----------
@@ -44,6 +50,13 @@ public class TagService {
     @Transactional
     public void delete(Long id) {
         Tag tag = getTag(id);
+        List<Digitization> associatedDigitizations = digitizationRepository.findByTagsId(id);
+        for (Digitization digitization : associatedDigitizations) {
+            digitization.getTags().removeIf(t -> Objects.equals(t.getId(), id));
+        }
+        if (!associatedDigitizations.isEmpty()) {
+            digitizationRepository.saveAll(associatedDigitizations);
+        }
         tagRepository.delete(tag);
     }
 
