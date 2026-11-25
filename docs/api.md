@@ -142,6 +142,7 @@ Una **digitalización** es una URL a un recurso digital con una descripción, as
 | `pieceId` | número | — (viene en la URL) | Identificador de la pieza a la que pertenece. |
 | `url` | texto | sí | URL del recurso digital. |
 | `description` | texto | no | Descripción de la digitalización. |
+| `tags` | array | no | Lista de tags asociados (cada uno con `id` y `name`). |
 
 ### Asociar una digitalización a una pieza
 
@@ -160,7 +161,8 @@ Response `201 Created`:
   "id": 1,
   "pieceId": 1,
   "url": "https://archivo.org/carta-1978-frente.jpg",
-  "description": "Escaneo frente"
+  "description": "Escaneo frente",
+  "tags": []
 }
 ```
 
@@ -180,7 +182,8 @@ Response `200 OK`:
     "id": 1,
     "pieceId": 1,
     "url": "https://archivo.org/carta-1978-frente.jpg",
-    "description": "Escaneo frente"
+    "description": "Escaneo frente",
+    "tags": []
   }
 ]
 ```
@@ -198,7 +201,8 @@ Response `200 OK`:
   "id": 1,
   "pieceId": 1,
   "url": "https://archivo.org/carta-1978-frente.jpg",
-  "description": "Escaneo frente"
+  "description": "Escaneo frente",
+  "tags": []
 }
 ```
 
@@ -206,4 +210,53 @@ Errores: `404 Not Found` si no existe, con `{ "error": "Digitization 99 not foun
 
 ---
 
-_Pendiente: catalogación de digitalizaciones con tags (`DS-17`) y búsqueda (`DS-19`). Se agregan con cada card._
+### Catalogar una digitalización (asociar tags)
+
+`PUT /pieces/{pieceId}/digitizations/{digitizationId}/tags`
+
+Reemplaza los tags de una digitalización existente con la lista indicada. Los tags deben existir previamente en el catálogo administrado.
+
+**Parámetros de ruta:**
+
+- `pieceId`: ID de la pieza a la que pertenece la digitalización.
+- `digitizationId`: ID de la digitalización a catalogar.
+
+**Request:**
+
+```json
+{
+  "tagIds": [1, 3]
+}
+```
+
+| Campo | Tipo | Obligatorio | Descripción |
+|---|---|---|---|
+| `tagIds` | array de números | sí | IDs de los tags a asociar. Lista vacía `[]` elimina todos los tags. |
+
+**Response `200 OK`:**
+
+```json
+{
+  "id": 1,
+  "pieceId": 1,
+  "url": "https://archivo.org/carta-1978-frente.jpg",
+  "description": "Escaneo frente",
+  "tags": [
+    { "id": 1, "name": "dictadura" },
+    { "id": 3, "name": "derechos-humanos" }
+  ]
+}
+```
+
+**Errores:**
+
+- `404 Not Found` si la digitalización no existe: `{ "error": "Digitization 99 not found" }`.
+- `404 Not Found` si la digitalización no pertenece a la pieza indicada: `{ "error": "Digitization 10 not found for piece 1" }`.
+- `404 Not Found` si alguno de los `tagIds` no existe: `{ "error": "Tag 99 not found" }`.
+- `400 Bad Request` si `tagIds` es nulo o contiene algún elemento nulo: `{ "error": "Invalid request" }`.
+
+> **Nota:** La validación de tags es **atómica**: si *alguno* de los `tagIds` no existe, **ningún** tag se asocia y se devuelve error `404`. No se crean tags nuevos automáticamente.
+
+---
+
+_Pendiente: búsqueda (`DS-19`). Se agrega con cada card._
