@@ -253,7 +253,7 @@ Reemplaza los tags de una digitalización existente con la lista indicada. Los t
 - `404 Not Found` si la digitalización no existe: `{ "error": "Digitization 99 not found" }`.
 - `404 Not Found` si la digitalización no pertenece a la pieza indicada: `{ "error": "Digitization 10 not found for piece 1" }`.
 - `404 Not Found` si alguno de los `tagIds` no existe: `{ "error": "Tag 99 not found" }`.
-- `400 Bad Request` si `tagIds` es nulo: `{ "error": "Invalid request" }`.
+- `400 Bad Request` si `tagIds` es nulo o contiene algún elemento nulo: `{ "error": "Invalid request" }`.
 
 > **Nota:** La validación de tags es **atómica**: si *alguno* de los `tagIds` no existe, **ningún** tag se asocia y se devuelve error `404`. No se crean tags nuevos automáticamente.
 
