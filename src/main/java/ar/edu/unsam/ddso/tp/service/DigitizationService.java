@@ -13,6 +13,7 @@ import ar.edu.unsam.ddso.tp.repository.TagRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
 
 @Service
 public class DigitizationService {
@@ -50,8 +51,7 @@ public class DigitizationService {
     @Transactional
     public DigitizationResponseDTO create(Long pieceId, DigitizationCreateRequestDTO request) {
         Piece piece = getPiece(pieceId);
-        Digitization digitization =
-                new Digitization(null, request.url().trim(), request.description(), piece);
+        Digitization digitization = new Digitization(null, request.url().trim(), request.description(), piece);
         return DigitizationResponseDTO.from(digitizationRepository.save(digitization));
     }
 
@@ -66,10 +66,11 @@ public class DigitizationService {
 
         List<Long> tagIds = request.tagIds();
 
-        // Validar que todos los tags existan antes de modificar
-        List<Tag> tags = tagIds.stream()
-                .map(this::getTag)
-                .toList();
+        List<Tag> tags = new ArrayList<>();
+
+        for (Long tagId : tagIds) {
+            tags.add(getTag(tagId));
+        }
 
         // Reemplazar la colección de tags
         digitization.setTags(tags);
