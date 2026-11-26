@@ -167,7 +167,7 @@ Response `201 Created`:
 ```
 
 Errores:
-- `400 Bad Request` si falta `url` o está vacío: `{ "error": "Invalid request" }`.
+- `400 Bad Request` si falta `url`, está vacío o no tiene formato de URL válido: `{ "error": "Invalid request" }`.
 - `404 Not Found` si la pieza no existe: `{ "error": "Piece 99 not found" }`.
 
 ### Listar digitalizaciones de una pieza
