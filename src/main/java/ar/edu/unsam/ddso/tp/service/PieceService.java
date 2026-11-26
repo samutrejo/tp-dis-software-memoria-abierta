@@ -5,6 +5,8 @@ import ar.edu.unsam.ddso.tp.dto.PieceResponseDTO;
 import ar.edu.unsam.ddso.tp.exception.NotFoundException;
 import ar.edu.unsam.ddso.tp.model.Piece;
 import ar.edu.unsam.ddso.tp.repository.PieceRepository;
+
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +22,15 @@ public class PieceService {
 
     // ---------- Consultas ----------
 
-    public List<PieceResponseDTO> findAll() {
-        return pieceRepository.findAll().stream().map(PieceResponseDTO::from).toList();
+    public List<PieceResponseDTO> search(
+            String name,
+            String description,
+            LocalDate date,
+            String tag) {
+        return pieceRepository.search(name, description, date, tag)
+                .stream()
+                .map(PieceResponseDTO::from)
+                .toList();
     }
 
     public PieceResponseDTO findById(Long id) {
