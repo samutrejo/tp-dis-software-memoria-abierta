@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DigitizationRepository extends JpaRepository<Digitization, Long> {
 
     List<Digitization> findByPieceId(Long pieceId);
+
+    List<Digitization> findByTagsId(Long tagId);
 }

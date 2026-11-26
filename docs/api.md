@@ -126,6 +126,8 @@ Errores: `404 Not Found` si no existe, con `{ "error": "Tag 99 not found" }`.
 
 `DELETE /tags/{id}`
 
+Si el tag estaba asociado a digitalizaciones, se desasocia automáticamente antes de eliminarlo para evitar errores de integridad referencial.
+
 Response `204 No Content` (sin body).
 
 Errores: `404 Not Found` si no existe, con `{ "error": "Tag 99 not found" }`.
