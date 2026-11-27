@@ -1,4 +1,3 @@
-
 package ar.edu.unsam.ddso.tp.repository;
 
 import java.time.LocalDate;
@@ -17,19 +16,29 @@ public interface PieceRepository extends JpaRepository<Piece, Long> {
         WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))
         AND (:description IS NULL OR LOWER(p.description) LIKE LOWER(CONCAT('%', :description, '%')))
         AND (:date IS NULL OR p.date = :date)
-        AND (
-            :tag IS NULL OR EXISTS (
-                SELECT d.id FROM Digitization d
-                JOIN d.tags t
-                WHERE d.piece = p
-                AND LOWER(t.name) = LOWER(:tag)
-            )
-        )
         """)
     List<Piece> search(
             @Param("name") String name,
             @Param("description") String description,
+            @Param("date") LocalDate date
+    );
+
+    @Query("""
+        SELECT p FROM Piece p
+        WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')))
+        AND (:description IS NULL OR LOWER(p.description) LIKE LOWER(CONCAT('%', :description, '%')))
+        AND (:date IS NULL OR p.date = :date)
+        AND EXISTS (
+            SELECT d.id FROM Digitization d
+            JOIN d.tags t
+            WHERE d.piece = p
+            AND LOWER(t.name) IN :tags
+        )
+        """)
+    List<Piece> searchByTags(
+            @Param("name") String name,
+            @Param("description") String description,
             @Param("date") LocalDate date,
-            @Param("tag") String tag
+            @Param("tags") List<String> tags
     );
 }

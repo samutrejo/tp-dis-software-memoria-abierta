@@ -56,7 +56,7 @@ Permite listar todas las piezas o aplicar filtros opcionales combinables.
 | `name` | String | Busca coincidencias parciales en el nombre. |
 | `description` | String | Busca coincidencias parciales en la descripción. |
 | `date` | LocalDate | Filtra por fecha exacta (`YYYY-MM-DD`). |
-| `tag` | String | Filtra por nombre exacto del tag asociado a alguna digitalización de la pieza. |
+| `tag` | List<String> | Filtra por los nombres de los tags asociados a alguna digitalización de la pieza. Si se indican varios, se aplica lógica OR entre ellos. |
 
 Los filtros son opcionales y se combinan mediante `AND`. Las búsquedas por nombre, descripción y tag no distinguen mayúsculas de minúsculas.
 
@@ -71,6 +71,9 @@ Si no se envían filtros, devuelve todas las piezas.
 - `GET /pieces?tag=historia`
 - `GET /pieces?name=carta&date=1978-06-25`
 - `GET /pieces?name=carta&tag=historia`
+- `GET /pieces?tag=historia&tag=carta`
+- `GET /pieces?tag=historia,carta`
+- `GET /pieces?name=carta&tag=historia&tag=archivo`
 
 Response `200 OK`:
 

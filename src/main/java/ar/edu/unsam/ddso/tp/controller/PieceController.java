@@ -34,8 +34,8 @@ public class PieceController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) LocalDate date,
-            @RequestParam(required = false) String tag) {
-        return pieceService.search(name, description, date, tag);
+            @RequestParam(name = "tag", required = false) List<String> tags) {
+        return pieceService.search(name, description, date, tags);
     }
 
     @GetMapping("/{id}")

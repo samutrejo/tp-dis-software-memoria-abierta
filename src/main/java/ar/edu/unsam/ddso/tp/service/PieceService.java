@@ -6,6 +6,7 @@ import ar.edu.unsam.ddso.tp.exception.NotFoundException;
 import ar.edu.unsam.ddso.tp.model.Piece;
 import ar.edu.unsam.ddso.tp.repository.PieceRepository;
 
+import java.util.Objects;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,23 @@ public class PieceService {
             String name,
             String description,
             LocalDate date,
-            String tag) {
-        return pieceRepository.search(name, description, date, tag)
-                .stream()
+            List<String> tags) {
+
+        List<String> tagsNormalizados = tags == null
+                ? List.of()
+                : tags.stream()
+                        .filter(Objects::nonNull)
+                        .map(String::trim)
+                        .filter(tag -> !tag.isEmpty())
+                        .map(tag -> tag.toLowerCase(java.util.Locale.ROOT))
+                        .distinct()
+                        .toList();
+
+        List<Piece> pieces = tagsNormalizados.isEmpty()
+                ? pieceRepository.search(name, description, date)
+                : pieceRepository.searchByTags(name, description, date, tagsNormalizados);
+
+        return pieces.stream()
                 .map(PieceResponseDTO::from)
                 .toList();
     }
