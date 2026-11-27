@@ -43,17 +43,54 @@ Response `201 Created`:
 
 Errores: `400` si falta `name` o está vacío.
 
-### Listar piezas
+### Listar y buscar piezas
 
 `GET /pieces`
+
+Permite listar todas las piezas o aplicar filtros opcionales combinables.
+
+**Parámetros de consulta:**
+
+| Parámetro | Tipo | Descripción |
+|---|---|---|
+| `name` | String | Busca coincidencias parciales en el nombre. |
+| `description` | String | Busca coincidencias parciales en la descripción. |
+| `date` | LocalDate | Filtra por fecha exacta (`YYYY-MM-DD`). |
+| `tag` | List<String> | Filtra por los nombres de los tags asociados a alguna digitalización de la pieza. Si se indican varios, se aplica lógica OR entre ellos. |
+
+Los filtros son opcionales y se combinan mediante `AND`. Las búsquedas por nombre, descripción y tag no distinguen mayúsculas de minúsculas.
+
+Si no se envían filtros, devuelve todas las piezas.
+
+**Ejemplos:**
+
+- `GET /pieces`
+- `GET /pieces?name=carta`
+- `GET /pieces?description=manuscrit`
+- `GET /pieces?date=1978-06-25`
+- `GET /pieces?tag=historia`
+- `GET /pieces?name=carta&date=1978-06-25`
+- `GET /pieces?name=carta&tag=historia`
+- `GET /pieces?tag=historia&tag=carta`
+- `GET /pieces?tag=historia,carta`
+- `GET /pieces?name=carta&tag=historia&tag=archivo`
 
 Response `200 OK`:
 
 ```json
 [
-  { "id": 1, "name": "Carta de 1978", "description": "Manuscrita", "date": "1978-06-25" }
+  {
+    "id": 1,
+    "name": "Carta de 1978",
+    "description": "Manuscrita",
+    "date": "1978-06-25"
+  }
 ]
 ```
+
+Si no existen coincidencias, devuelve una lista vacía (`[]`).
+
+La búsqueda devuelve piezas, no digitalizaciones.
 
 ### Obtener una pieza
 
@@ -62,7 +99,12 @@ Response `200 OK`:
 Response `200 OK`:
 
 ```json
-{ "id": 1, "name": "Carta de 1978", "description": "Manuscrita", "date": "1978-06-25" }
+{
+  "id": 1,
+  "name": "Carta de 1978",
+  "description": "Manuscrita",
+  "date": "1978-06-25"
+}
 ```
 
 Errores: `404` si no existe, con `{ "error": "Piece 99 not found" }`.
@@ -260,5 +302,3 @@ Reemplaza los tags de una digitalización existente con la lista indicada. Los t
 > **Nota:** La validación de tags es **atómica**: si *alguno* de los `tagIds` no existe, **ningún** tag se asocia y se devuelve error `404`. No se crean tags nuevos automáticamente.
 
 ---
-
-_Pendiente: búsqueda (`DS-19`). Se agrega con cada card._
